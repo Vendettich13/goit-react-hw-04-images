@@ -23,31 +23,30 @@ export function App() {
    }
    if (prevQuery === '') {
     return toast.warn("Please, enter something")
-   }
-    setQuery(query)
+    } 
+    setPage(1)
+    setImages([])
+    setQuery(prevQuery)
   }
 
- useEffect(()=> 
- {function fetchImages(prevProps, prevState) {
-    
-        if (prevState.query !== query || prevState.page !== page) {
+ useEffect(() => 
+ {function fetchImages(prevQuery, prevPage) {
+   if (prevQuery !== query || prevPage !== page) {
             setIsLoading(true)
             getByName(query, page)
               .then(images => {
-                if (images.data.hits.length >= 12) {
+                if (images.data.hits.length > 12) {
                   setShowButton(true)
                 } else
                   setShowButton(false)
-                if (prevState.query !== query) {
-                  setImages([...images.data.hits])
-                  setIsLoading(false)
-                } else
-                  setImages([...prevState.images, ...images.data.hits])
+                  setImages(prevImages => [...prevImages, ...images.data.hits])
                   setIsLoading(false)
               })
-              .catch(error => { setError( toast.error('Something wrong, reload the page') ) })
-            }
-          }}, [page, query])
+       .catch(error => { setError(toast.error('Something wrong, reload the page')) })
+   }
+ } 
+   fetchImages()
+          }, [page, query])
           
    function loadMore() {
         setPage(prev => (prev + 1 ))
