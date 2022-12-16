@@ -30,12 +30,17 @@ export function App() {
   }
 
  useEffect(() => 
- {function fetchImages(prevQuery, prevPage) {
+ {if (query === '') {return}
+   function fetchImages(prevQuery, prevPage) {
    if (prevQuery !== query || prevPage !== page) {
-            setIsLoading(true)
+     setIsLoading(true)
+     setShowButton(false)
             getByName(query, page)
               .then(images => {
-                if (images.data.hits.length > 12) {
+                if (images.length === images.data.total) {
+                  return toast.info('You have reached the end of your search...')
+                }
+                if (images.data.hits.length >= 12) {
                   setShowButton(true)
                 } else
                   setShowButton(false)
