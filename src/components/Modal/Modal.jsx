@@ -4,7 +4,7 @@ import css from "../Modal/Modal.module.css"
 export function Modal({closeModal, url}) {
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown)
-    return window.removeEventListener("keydown", handleKeyDown)
+    return () => {window.removeEventListener("keydown", handleKeyDown)}
   })
   
   function handleKeyDown(e) {

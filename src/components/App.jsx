@@ -31,8 +31,7 @@ export function App() {
 
  useEffect(() => 
  {if (query === '') {return}
-   function fetchImages(prevQuery, prevPage) {
-   if (prevQuery !== query || prevPage !== page) {
+   function fetchImages() {
      setIsLoading(true)
      setShowButton(false)
             getByName(query, page)
@@ -48,7 +47,6 @@ export function App() {
                   setIsLoading(false)
               })
        .catch(error => { setError(toast.error('Something wrong, reload the page')) })
-   }
  } 
    fetchImages()
           }, [page, query])
